@@ -37,7 +37,7 @@ export default function Register(){
             m.innerHTML="Empty Feilds!!";
             return;
         }
-        const response=await fetch("https://financial-interest-management-syste-ten.vercel.app//register",{
+        const response=await fetch("https://financial-interest-management-syste-ten.vercel.app/register",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({uname:userName,uphno:phno,uemail:email,upassword:password})
