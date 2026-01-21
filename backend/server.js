@@ -1,5 +1,5 @@
 const express=require('express');
-const sql=require('mysql2');
+const sql=require('mysql2/promise');
 const cors=require('cors');
 const bcrypt=require('bcryptjs');
 
@@ -7,17 +7,25 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-const db=sql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"manish@832#",
-    database:"first"
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
 });
 
-db.connect((err)=>{
-    if(err) throw err;
-    console.log("Connected to SQL Sucessfully");
+db.getConnection()
+  .then(conn => {
+    console.log("MySQL connected");
+    conn.release();
+  })
+  .catch(err => {
+    console.error("MySQL connection failed:", err.message);
 });
+
 
 app.post("/register",async(req,res)=>{
     const {uname,uphno,uemail,upassword}=req.body;
@@ -150,7 +158,7 @@ app.delete("/remove_katha/:sid",async(req,res)=>{
 });
 
 app.listen(5000,()=>{
-    console.log("Server is running on http://localhost:5000");
+    console.log("Server is running on https://financial-interest-management-syste-ten.vercel.app/");
 });
 // create table users(uid int primary key auto_increment,uname varchar(256),uemail varchar(256),uphno varchar(256),upassword varchar(1080));
 // create table save_customer(sid int primary key auto_increment,billno int,td date,ld date,intr double,amount double,intrest double,total double);
