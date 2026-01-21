@@ -13,7 +13,7 @@ export default function Customer(){
                 document.getElementById("result").innerHTML="<b style='color:red;'>Please Enter Details</b>";
                 return;
             }
-            const response=await fetch("https://financial-interest-management-syste-ten.vercel.app//save/katha",{
+            const response=await fetch("https://financial-interest-management-syste-ten.vercel.app/save/katha",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify({uid:localStorage.getItem('user_id'),billno:billno,td:td,ld:ld,intr:intr,amount:amount,intrest:intrest,total:total})
